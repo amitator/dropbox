@@ -1,10 +1,8 @@
 package ru.geekbrains;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class Server {
@@ -14,17 +12,16 @@ public class Server {
 
     public Server() {
         try {
+            SqlHandler.connect();
             serverSocket = new ServerSocket(SERVER_PORT);
             System.out.println("Server started at port: " + SERVER_PORT);
-            Socket socket = serverSocket.accept();
-            System.out.println("Client connected");
-            Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-            while (true) {
-                String str = in.nextLine();
-                System.out.println("Client: " + str);
-            }
+            clients = new Vector<ClientHandler>();
 
+            while (true){
+                Socket socket = serverSocket.accept();     //Waiting for client and not moving forward until client connected
+                System.out.println("Client Connected");
+                new ClientHandler(this, socket);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -33,7 +30,7 @@ public class Server {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            SqlHandler.disconnect();
         }
-
     }
 }

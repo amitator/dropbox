@@ -20,11 +20,28 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
 
 public class Main extends Application {
 
+    private Socket socket;
+    private DataInputStream in;
+    private DataOutputStream out;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+        try {
+            socket = new Socket("localhost", 8189);
+            out = new DataOutputStream(socket.getOutputStream());
+            in = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         primaryStage.setTitle("GridPaneForm ");
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 380, 150, Color.WHITE);
@@ -42,6 +59,14 @@ public class Main extends Application {
         Label lNameLbl = new Label("Last Name");
         TextField lNameFld = new TextField();
         Button saveButt = new Button("Save");
+        saveButt.setOnAction( actionEvent -> {
+            try {
+                out.writeUTF(fNameFld.getText());
+                System.out.println(fNameFld.getText());
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 // First name label
         GridPane.setHalignment(fNameLbl, HPos.RIGHT);
         gridpane.add(fNameLbl, 0, 0);
