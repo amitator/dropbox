@@ -1,5 +1,9 @@
 package ru.geekbrains;
 
+import main.java.ru.geekbrains.AbstractMessage;
+import main.java.ru.geekbrains.AuthMessage;
+import main.java.ru.geekbrains.CommandMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,24 +22,22 @@ public class ClientHandler {
             this.socket = socket;
             this.in = new ObjectInputStream(socket.getInputStream());
             this.out = new ObjectOutputStream(socket.getOutputStream());
-            isAuthorized = false;
 
             new Thread(() -> {
+                isAuthorized = false;
                 try {
                     while (true){
-                        String msg = in.readUTF();
-                        if (msg.startsWith("/auth")){
-                            String[] tokens = msg.split(" ");
-                            isAuthorized = SqlHandler.isAuthorized(tokens[1], tokens[2]);
+                        AbstractMessage abstractMessage = (AbstractMessage) in.readObject();
+                        if (abstractMessage instanceof AuthMessage){
+                            AuthMessage am = (AuthMessage) abstractMessage;
+                            isAuthorized = SqlHandler.isAuthorized(am.getLogin(), am.getPassword());
                             if (isAuthorized){
-                                out.writeUTF("/authok");
-                            } else {
-                                out.writeUTF("Wrong Login/Password pair.");
+                                sendMessage(new CommandMessage(CommandMessage.AUTH_OK, am.getLogin()));
                             }
                         }
                     }
-                } catch (IOException ex){
-                    ex.printStackTrace();
+                } catch (Exception e){
+                    e.printStackTrace();
                 } finally {
                     try {
                         socket.close();
@@ -58,6 +60,14 @@ public class ClientHandler {
 
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public void sendMessage(AbstractMessage abstractMessage){
+        try {
+            out.writeObject(abstractMessage);
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 }
