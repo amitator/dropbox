@@ -3,17 +3,24 @@ package ru.geekbrains;
 import main.java.ru.geekbrains.AbstractMessage;
 import main.java.ru.geekbrains.AuthMessage;
 import main.java.ru.geekbrains.CommandMessage;
+import main.java.ru.geekbrains.FileListMessage;
+import sun.rmi.log.LogInputStream;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientHandler {
     private Server server;
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private String login;
     private boolean isAuthorized;
 
     public ClientHandler (final Server server, final Socket socket){
@@ -33,6 +40,8 @@ public class ClientHandler {
                             isAuthorized = SqlHandler.isAuthorized(am.getLogin(), am.getPassword());
                             if (isAuthorized){
                                 sendMessage(new CommandMessage(CommandMessage.AUTH_OK, am.getLogin()));
+                                this.login = am.getLogin();
+                                sendMessage(getFileStructureMessage());                             //4247
                             }
                         }
                     }
@@ -60,6 +69,19 @@ public class ClientHandler {
 
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public FileListMessage getFileStructureMessage(){
+        return new FileListMessage(getFilesList());
+    }
+
+    public List<String> getFilesList(){
+        List<String> files = new ArrayList<>();
+        try {
+            Files.newDirectoryStream(Paths.get(login)).forEach(path -> files.add(path.getFileName().toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
