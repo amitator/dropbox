@@ -9,6 +9,18 @@ public class FileDataMessage extends AbstractMessage {
     private long size;
     private byte[] data;
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
     public FileDataMessage(String fileName) {
         try {
             this.fileName = fileName;
