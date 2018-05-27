@@ -23,7 +23,7 @@ public class FileDataMessage extends AbstractMessage {
 
     public FileDataMessage(String fileName) {
         try {
-            this.fileName = fileName;
+            this.fileName = Paths.get(fileName).getFileName().toString();
             this.size = Files.size(Paths.get(fileName));
             this.data = Files.readAllBytes(Paths.get(fileName)); //cuz of NIO we can just Files.readAllBytes(Paths.get(fileName))
         } catch (IOException e) {

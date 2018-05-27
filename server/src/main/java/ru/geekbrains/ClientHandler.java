@@ -49,7 +49,8 @@ public class ClientHandler {
                         AbstractMessage abstractMessage = (AbstractMessage) in.readObject();
                         if (abstractMessage instanceof FileDataMessage) {
                             FileDataMessage fdm = (FileDataMessage) abstractMessage;
-                            Files.write(Paths.get(login + "/" + fdm.getFileName()), fdm.getData(), StandardOpenOption.CREATE_NEW);
+                            System.out.println("CliendtHandler on Server gets fdm: " + fdm.getFileName());
+                            Files.write(Paths.get("server/storage/" + login + "/" + fdm.getFileName()), fdm.getData(), StandardOpenOption.CREATE_NEW);
                         }
                     }
                 } catch (Exception e){
@@ -86,7 +87,7 @@ public class ClientHandler {
     public List<String> getFilesList(){
         List<String> files = new ArrayList<>();
         try {
-            Files.newDirectoryStream(Paths.get(login)).forEach(path -> files.add(path.getFileName().toString()));
+            Files.newDirectoryStream(Paths.get("server/storage/" + login)).forEach(path -> files.add(path.getFileName().toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
