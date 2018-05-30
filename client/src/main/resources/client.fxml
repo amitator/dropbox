@@ -10,7 +10,7 @@
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <HBox fx:id="authPanel">
         <TextField HBox.hgrow="ALWAYS" fx:id="loginField"/>
-        <PasswordField HBox.hgrow="ALWAYS" fx:id="passField"/>
+        <PasswordField HBox.hgrow="ALWAYS" fx:id="passField" onAction="#sendAuthMessage"/>
         <Button onAction="#sendAuthMessage">Login</Button>
     </HBox>
     <ListView VBox.vgrow="ALWAYS" fx:id="mainList"/>
