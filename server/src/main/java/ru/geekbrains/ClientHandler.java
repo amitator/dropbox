@@ -61,17 +61,7 @@ public class ClientHandler {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    try {
-                        in.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    try {
-                        out.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    System.out.println("Client disconnected.");
+                   System.out.println("Client disconnected.");
                 }
             }).start();
 

@@ -58,6 +58,11 @@ public class Controller {
         AuthMessage authMessage = new AuthMessage(loginField.getText(), passField.getText());
         loginField.clear();
         passField.clear();
+        try {
+            out.writeObject(authMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void connect() {
@@ -81,8 +86,6 @@ public class Controller {
                             }
                         }
                     }
-//                    FileDataMessage fdm = new FileDataMessage("client/123.txt");
-//                    out.writeObject(fdm);
                     while (true) {
                         AbstractMessage abstractMessage = (AbstractMessage) in.readObject();
                         if (abstractMessage instanceof FileListMessage) {
@@ -98,6 +101,12 @@ public class Controller {
                     }
                 } catch (Exception e){
                     e.printStackTrace();
+                }finally {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             t.setDaemon(true);
@@ -105,18 +114,6 @@ public class Controller {
 
         } catch (IOException e){
             e.printStackTrace();
-        } finally {
-            try {
-                socket.close();
-                in.close();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
-
-
-
-
 }
