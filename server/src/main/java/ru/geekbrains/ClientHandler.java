@@ -50,7 +50,20 @@ public class ClientHandler {
                         if (abstractMessage instanceof FileDataMessage) {
                             FileDataMessage fdm = (FileDataMessage) abstractMessage;
                             System.out.println("CliendtHandler on Server gets fdm: " + fdm.getFileName());
-                            Files.write(Paths.get("server/storage/" + login + "/" + fdm.getFileName()), fdm.getData(), StandardOpenOption.CREATE_NEW);
+                            Files.write(Paths.get("server/storage/" + login + "/" + fdm.getFileName()), fdm.getData(), StandardOpenOption.CREATE);
+                        }
+                        if (abstractMessage instanceof CommandMessage) {
+                            CommandMessage cmd = (CommandMessage) abstractMessage;
+                            if (cmd.getCmd() == CommandMessage.DOWNLOAD_FILE){
+                                FileDataMessage fdm = new FileDataMessage("server/storage/" + login + "/" + cmd.getAttachment()[0]);
+                                sendMessage(fdm);
+                            }
+                        }
+                        if (abstractMessage instanceof CommandMessage) {
+                            CommandMessage cmd = (CommandMessage) abstractMessage;
+                            if (cmd.getCmd() == CommandMessage.FILE_LIST_REQUEST){
+                                sendMessage(getFileStructureMessage());
+                            }
                         }
                     }
                 } catch (Exception e){

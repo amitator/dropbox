@@ -5,6 +5,8 @@ public class CommandMessage extends AbstractMessage{
     private Object[] attachment;
 
     public static final int AUTH_OK = 3339482;
+    public static final int DOWNLOAD_FILE = 98765423;
+    public static final int FILE_LIST_REQUEST = 1234254;
 
     public int getCmd() {
         return cmd;

@@ -15,6 +15,6 @@
     </HBox>
     <ListView VBox.vgrow="ALWAYS" fx:id="mainList"/>
     <HBox fx:id="cmdPanel" visible="false" managed="false">
-        <Button fx:id="downloadFile">Download File</Button>
+        <Button onAction="#downloadFile">Download File</Button>
     </HBox>
 </VBox>

@@ -1,8 +1,10 @@
 package ru.geekbrains;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -14,6 +16,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ResourceBundle;
 
 public class Controller {
@@ -98,6 +103,11 @@ public class Controller {
                             });
 
                         }
+                        if (abstractMessage instanceof FileDataMessage) {
+                            FileDataMessage fdm = (FileDataMessage) abstractMessage;
+                            Files.write(Paths.get("client/local_storage/" + fdm.getFileName()), fdm.getData(), StandardOpenOption.CREATE);
+                            showAlert(fdm.getFileName() + " downloaded!");
+                        }
                     }
                 } catch (Exception e){
                     e.printStackTrace();
@@ -115,5 +125,22 @@ public class Controller {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void downloadFile() {
+        String fileName = mainList.getSelectionModel().getSelectedItem();
+        CommandMessage cmd = new CommandMessage(CommandMessage.DOWNLOAD_FILE, fileName);
+        try {
+            out.writeObject(cmd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAlert(String msg){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Message");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }
