@@ -49,8 +49,8 @@ public class ClientHandler {
                         AbstractMessage abstractMessage = (AbstractMessage) in.readObject();
                         if (abstractMessage instanceof FileDataMessage) {
                             FileDataMessage fdm = (FileDataMessage) abstractMessage;
-                            System.out.println("CliendtHandler on Server gets fdm: " + fdm.getFileName());
                             Files.write(Paths.get("server/storage/" + login + "/" + fdm.getFileName()), fdm.getData(), StandardOpenOption.CREATE);
+                            sendMessage(getFileStructureMessage());
                         }
                         if (abstractMessage instanceof CommandMessage) {
                             CommandMessage cmd = (CommandMessage) abstractMessage;

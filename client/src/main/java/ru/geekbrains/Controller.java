@@ -2,12 +2,16 @@ package ru.geekbrains;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import main.java.ru.geekbrains.*;
 
@@ -17,11 +21,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ResourceBundle;
 
-public class Controller {
+public class Controller implements Initializable{
     Socket socket = null;
     ObjectInputStream in;
     ObjectOutputStream out;
@@ -42,6 +47,31 @@ public class Controller {
     @FXML
     ListView<String> mainList;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        mainList.setOnDragOver(event -> {
+            if (login != null) {
+                if (event.getGestureSource() != mainList && event.getDragboard().hasFiles()) {
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                }
+                event.consume();
+            }
+        });
+
+        mainList.setOnDragDropped(event -> {
+            if (login != null) {
+                Dragboard db = event.getDragboard();
+                boolean success = false;
+                if (db.hasFiles()) {
+                    sendFile(db.getFiles().get(0).getAbsolutePath());
+                    success = true;
+                }
+                event.setDropCompleted(success);
+                event.consume();
+            }
+        });
+    }
+
     public void setLogin(String login){
         if (login == null){
             authPanel.setVisible(true);
@@ -53,6 +83,7 @@ public class Controller {
             authPanel.setManaged(false);
             cmdPanel.setVisible(true);
             cmdPanel.setManaged(true);
+            this.login = login;
         }
     }
 
@@ -146,5 +177,14 @@ public class Controller {
 
     public void showAlertFromAnotherThread(String msg){
         Platform.runLater(() -> showAlert(msg));
+    }
+
+    public void sendFile(String fileName) {
+        FileDataMessage fdm = new FileDataMessage(fileName);
+        try {
+            out.writeObject(fdm);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
