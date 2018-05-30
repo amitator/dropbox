@@ -106,7 +106,7 @@ public class Controller {
                         if (abstractMessage instanceof FileDataMessage) {
                             FileDataMessage fdm = (FileDataMessage) abstractMessage;
                             Files.write(Paths.get("client/local_storage/" + fdm.getFileName()), fdm.getData(), StandardOpenOption.CREATE);
-                            showAlert(fdm.getFileName() + " downloaded!");
+                            showAlertFromAnotherThread(fdm.getFileName() + " downloaded!");
                         }
                     }
                 } catch (Exception e){
@@ -138,9 +138,13 @@ public class Controller {
     }
 
     public void showAlert(String msg){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Message");
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    public void showAlertFromAnotherThread(String msg){
+        Platform.runLater(() -> showAlert(msg));
     }
 }
