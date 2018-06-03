@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="884.0" prefWidth="1346.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" layoutX="8.0" layoutY="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Corbel; -fx-font-weight: bolder; -fx-font-size: 3em; -fx-fill: white;" text="GeekBrains DropBox " wrappingWidth="348.13671875" />
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: white; -fx-font-size: 1.5em;" text="SignUp">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-width: 0px 0px 2px 0px; -fx-border-color: white; -fx-font-size: 1.5em;" text="Login">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" layoutX="423.0" layoutY="292.0" prefHeight="332.0" prefWidth="500.0">
+         <children>
+            <HBox alignment="CENTER" style="-fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;">
+               <children>
+                  <TextField promptText="username" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+               </VBox.margin></HBox>
+            <HBox alignment="CENTER" style="-fx-border-color: white; -fx-border-width: 0px 0px 2px 0px;">
+               <children>
+                  <TextField promptText="password" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+               </VBox.margin>
+            </HBox>
+            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="450.0" style="-fx-background-color: #2f2f2fa3; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 2.5em;" text="&gt;    Enter">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="519.0" layoutY="770.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #2f2f2fa3;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 1.5em; -fx-font-family: Corbel; -fx-fill: white; -fx-font-weight: bold;" text="Igor Prus" wrappingWidth="118.525390625" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 1.5em; -fx-font-family: Corbel; -fx-fill: white; -fx-font-weight: bold;" text="prus.igor@gmail.com">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 1.5em; -fx-font-family: Corbel; -fx-fill: white; -fx-font-weight: bold;" text="https://github.com/amitator" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
