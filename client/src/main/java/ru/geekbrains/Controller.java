@@ -119,6 +119,8 @@ public class Controller implements Initializable{
                                 System.out.println("AUTH OK with Login: " + login);
                                 setLogin(login);
                                 break;
+                            } else {
+                                showAlertFromAnotherThread("Wrong Login/Password!");
                             }
                         }
                     }
@@ -168,6 +170,16 @@ public class Controller implements Initializable{
         }
     }
 
+    public void deleteFile() {
+        String fileName = mainList.getSelectionModel().getSelectedItem();
+        CommandMessage cm = new CommandMessage(CommandMessage.DELETE_FILE, fileName);
+        try {
+            out.writeObject(cm);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showAlert(String msg){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Message");
@@ -187,4 +199,5 @@ public class Controller implements Initializable{
             e.printStackTrace();
         }
     }
+
 }

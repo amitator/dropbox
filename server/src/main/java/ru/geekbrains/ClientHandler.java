@@ -42,6 +42,8 @@ public class ClientHandler {
                                 sendMessage(new CommandMessage(CommandMessage.AUTH_OK, login));
                                 sendMessage(getFileStructureMessage());
                                 break;
+                            } else {
+                                sendMessage(new CommandMessage(CommandMessage.AUTH_WRONG, null));
                             }
                         }
                     }
@@ -58,10 +60,11 @@ public class ClientHandler {
                                 FileDataMessage fdm = new FileDataMessage("server/storage/" + login + "/" + cmd.getAttachment()[0]);
                                 sendMessage(fdm);
                             }
-                        }
-                        if (abstractMessage instanceof CommandMessage) {
-                            CommandMessage cmd = (CommandMessage) abstractMessage;
                             if (cmd.getCmd() == CommandMessage.FILE_LIST_REQUEST){
+                                sendMessage(getFileStructureMessage());
+                            }
+                            if (cmd.getCmd() == CommandMessage.DELETE_FILE) {
+                                Files.delete(Paths.get("server/storage/" + login + "/" + cmd.getAttachment()[0]));
                                 sendMessage(getFileStructureMessage());
                             }
                         }
